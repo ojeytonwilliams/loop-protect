@@ -25,7 +25,6 @@ console.log('All finished');
 …to this:
 
 ```js
-let i = 0;
 var _LP = Date.now();
 while (true) {
   if (Date.now() - _LP > 100)
@@ -76,7 +75,8 @@ doc.close();
 // code now runs, and if there's an infinite loop, it's cleanly exited
 ```
 
-### Optional Second Argument 
+### Optional Second Argument
+
 In the above implementation, when code transformed by loop-protect contains an infinite loop, the loop is cleanly exited with a `break` statement, and any code after the loop is executed normally. See [example](https://github.com/jsbin/loop-protect#example). 
 
 But what if you want to log an error to the console to warn the user, or throw an error instead, to stop execution when an infinite loop is encountered? The `protect` function takes an optional second argument which can handle both behaviors. 
@@ -116,6 +116,30 @@ console.log('All finished'); // does not execute
 
 // Error: Bad loop on line 1
 ```
+
+### Optional Third Argument
+
+If your code involves a large, but finite, number of loops, you can use the third
+argument, `iterations`, to improve performance.  `Date.now()` is a relatively expensive
+operation, and it will only be checked once every `iterations` passes through a loop.
+
+With `iterations = 100` the initial code becomes
+
+```js
+var _LPC = 1;
+var _LP = Date.now();
+while (true) {
+  if (_LPC++ % 100 === 0 && Date.now() - _LP > 100)
+    break;
+
+  doSomething();
+}
+
+console.log('All finished');
+```
+
+skipping the first `Date.now()` call and only checking if the loop has been
+running too long once every 100 passes.
 
 ## Contributors
 
