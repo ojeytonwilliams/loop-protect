@@ -59,3 +59,18 @@ test('named function callback', () => {
   run(after);
   expect(done).toHaveBeenCalledWith(`${id}: 3`);
 });
+
+/* this depends on how Function.prototype.toString() is implemented
+   and so is difficult to test reliably.
+*/
+test('anonymous function callback', () => {
+  const id = 'lp5';
+  var anon = function (line) { done(`lp5, line: ${line}`) }
+  Babel.registerPlugin(
+    id,
+    require('../lib')(100, anon)
+  );
+  const after = transform(id)(code);
+  run(after);
+  expect(done).toHaveBeenCalledWith(`${id}, line: 3`);
+});
