@@ -4,10 +4,10 @@
   "description": "Prevent infinite loops in dynamically eval'd JavaScript.",
   "main": "dist/",
   "version": "2.1.6",
-  "homepage": "https://github.com/jsbin/loop-protect",
+  "homepage": "https://github.com/ojeytonwilliams/loop-protect",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jsbin/loop-protect.git"
+    "url": "git://github.com/ojeytonwilliams/loop-protect.git"
   },
   "scripts": {
     "test": "jest test/*.test.js",
