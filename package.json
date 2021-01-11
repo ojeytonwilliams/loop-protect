@@ -3,7 +3,7 @@
   "name": "@freecodecamp/loop-protect",
   "description": "Prevent infinite loops and recursion in dynamically eval'd JavaScript.",
   "main": "dist/",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "homepage": "https://github.com/shaunshamilton/loop-protect",
   "repository": {
     "type": "git",
