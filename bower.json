@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "homepage": "https://github.com/jsbin/loop-protect",
   "authors": [
-    "Remy Sharp <remy@remysharp.com>"
+    "Remy Sharp <remy@remysharp.com>",
+    "Oliver Eyton-Williams <ojeytonwilliams@gmail.com>",
+    "Shaun Hamilton <51722130+ShaunSHamilton@users.noreply.github.com>"
   ],
   "description": "Prevent infinite loops in dynamically eval'd JavaScript.",
   "moduleType": [

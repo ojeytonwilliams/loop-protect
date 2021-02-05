@@ -20,17 +20,8 @@
   ],
   "babel": {
     "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "browsers": [
-              ">0.25%",
-              "not dead"
-            ]
-          }
-        }
-      ]
+      "@babel/preset-env",
+      "@babel/preset-react"
     ],
     "plugins": [
       "@babel/plugin-proposal-optional-chaining"
@@ -41,6 +32,7 @@
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.13",
     "@babel/standalone": "^7.12.12",
     "husky": "^4.3.8",
     "jest": "^24.9.0",
