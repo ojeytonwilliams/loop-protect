@@ -89,7 +89,7 @@ describe("loop", function () {
   });
 
   it("console error when passing string", () => {
-    const code = `var i = 0; while (true) i++; return true;`;
+    const code = `var i = 0; while (true) i++; return true`;
 
     const spy = jest.fn();
     global.console.error = spy;
