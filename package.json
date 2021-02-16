@@ -12,6 +12,7 @@
   "scripts": {
     "test": "jest test/*.test.js",
     "build": "NODE_ENV=production babel lib/ --out-dir dist --copy-files",
+    "format": "prettier --write .",
     "prepublishOnly": "npm run build"
   },
   "files": [
@@ -37,7 +38,8 @@
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/standalone": "^7.7.4",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "prettier": "2.2.1"
   },
   "licenses": [
     {

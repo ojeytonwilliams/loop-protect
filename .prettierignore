@@ -1,0 +1,3 @@
+*.md
+.travis.yml
+bower.json
