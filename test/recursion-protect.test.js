@@ -1,5 +1,8 @@
 /* eslint-env node, jest */
 const React = require("react");
+const Enzyme = require("enzyme");
+const Adapter = require("enzyme-adapter-react-16");
+Enzyme.configure({ adapter: new Adapter() });
 const Babel = require("@babel/standalone");
 Babel.registerPlugin("loopProtection", require("../lib")(100));
 Babel.registerPreset(
@@ -34,6 +37,34 @@ const code = {
         `,
   stackedarrowfunctions:
     "(()=> { const add = x => y => z => x + y + z; return add;})();",
+  mockclass: `(()=>{
+    class MyComponent extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          name: 'Initial State'
+        };
+        this.handleClick = this.handleClick.bind(this);
+      }
+      handleClick() {
+        // Change code below this line
+        this.setState({
+          name: 'React Rocks!'
+        });
+        // Change code above this line
+      }
+      render() {
+        return (
+          <div>
+            <button onClick = {this.handleClick}>Click Me</button>
+            <h1>{this.state.name}</h1>
+          </div>
+        );
+      }
+    }
+    return MyComponent;
+  })();
+    `,
 };
 
 const sinon = {
@@ -147,5 +178,32 @@ describe("recursion", function () {
     var compiled = loopProtect(c);
     var result = run(compiled);
     expect(result(2)(4)(6)).toBe(12);
+  });
+
+  it("should allow Enzyme.mount state handling", async function () {
+    const test = async (MyComponent) => {
+      const waitForIt = (fn) =>
+        new Promise((resolve, reject) => setTimeout(() => resolve(fn()), 250));
+      const mockedComponent = Enzyme.mount(React.createElement(MyComponent));
+      console.log("mock: ", mockedComponent);
+      const first = () => {
+        mockedComponent.setState({ name: "Before" });
+        return waitForIt(() => mockedComponent.state("name"));
+      };
+      const second = () => {
+        mockedComponent.instance().handleClick();
+        return waitForIt(() => mockedComponent.state("name"));
+      };
+      const firstValue = await first();
+      const secondValue = await second();
+      expect(firstValue).toStrictEqual("Before");
+      expect(secondValue).toStrictEqual("React Rocks!");
+    };
+    var c = code.mockclass;
+    var compiled = loopProtect(c);
+    console.log("comp: ", compiled);
+    var result = run(compiled);
+    console.log("res: ", result);
+    await test(result);
   });
 });
