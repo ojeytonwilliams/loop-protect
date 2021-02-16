@@ -22,6 +22,16 @@ const code = {
     "(()=>{class TestClass {\n constructor() {\n this.a = 1;\n }\n render() {\n return(\n <div><TestClass /></div>\n);\n }\n} new TestClass(); return true;})()",
   infinitefuncclass:
     "(()=>{const FuncClass = () => { return(<div>Some content with<FuncClass /></div>); }; return FuncClass();})()",
+  withreplace: `(()=>{
+        var myNoun = "dog";
+        var myAdjective = "big";
+        var myVerb = "ran";
+        var myAdverb = "quickly";
+        var wordBlanks = "Once there was a " + myNoun + " which was very " + myAdjective + ". ";
+        wordBlanks += "It " + myVerb + " " + myAdverb + " around the yard.";
+        return wordBlanks;
+    })();
+        `,
 };
 
 const sinon = {
@@ -101,5 +111,32 @@ describe("recursion", function () {
     var result = run(compiled);
     expect(compiled).toBe(c);
     expect(result).toBe(true);
+  });
+
+  it("should not break with .replace()", function () {
+    const removeAssignments = (str) =>
+      str
+        .replace(/myNoun\s*=\s*["']dog["']/g, "")
+        .replace(/myAdjective\s*=\s*["']big["']/g, "")
+        .replace(/myVerb\s*=\s*["']ran["']/g, "")
+        .replace(/myAdverb\s*=\s*["']quickly["']/g, "");
+
+    var c = code.withreplace;
+    var compiled = loopProtect(c);
+    var newCode = removeAssignments(compiled);
+    var result = run(compiled);
+
+    expect(
+      !/dog/.test(newCode) &&
+        !/ran/.test(newCode) &&
+        !/big/.test(newCode) &&
+        !/quickly/.test(newCode)
+    ).toBe(true);
+    expect(
+      /\bdog\b/.test(result) &&
+        /\bbig\b/.test(result) &&
+        /\bran\b/.test(result) &&
+        /\bquickly\b/.test(result)
+    ).toBe(true);
   });
 });
