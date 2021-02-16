@@ -1,3 +1,3 @@
-export default function(line) {
+export default function (line) {
   console.log(`ok: ${line}`);
 }

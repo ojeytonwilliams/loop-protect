@@ -9,12 +9,12 @@ beforeEach(() => {
   done = jest.fn();
 });
 
-const transform = id => code =>
+const transform = (id) => (code) =>
   Babel.transform(new Function(code).toString(), {
-    plugins: [id]
+    plugins: [id],
   }).code; // eslint-disable-line no-new-func
 
-const run = code => {
+const run = (code) => {
   // console.log(code);
   eval(`(${code})()`); // eslint-disable-line no-eval
 };
@@ -31,7 +31,7 @@ test("anonymous callback and 10 iterations", () => {
   const id = "lp2";
   Babel.registerPlugin(
     id,
-    require("../lib")(100, line => done(`line: ${line}`), 10)
+    require("../lib")(100, (line) => done(`line: ${line}`), 10)
   );
   const after = transform(id)(code);
   run(after);
@@ -40,7 +40,7 @@ test("anonymous callback and 10 iterations", () => {
 
 test("arrow function callback and 10 iterations", () => {
   const id = "lp3";
-  const callback = line => done(`lp3: ${line}`);
+  const callback = (line) => done(`lp3: ${line}`);
 
   Babel.registerPlugin(id, require("../lib")(100, callback, 10));
   const after = transform(id)(code);
@@ -91,7 +91,7 @@ test("no callback and 10000 iterations", () => {
 test("two loops", () => {
   const id = "lp7";
   const iterations = 100;
-  const twoLoops = `let i = 0; while (i < 5) { i++; }; while (true) { i++; }; done(i)`
+  const twoLoops = `let i = 0; while (i < 5) { i++; }; while (true) { i++; }; done(i)`;
 
   Babel.registerPlugin(id, require("../lib")(100, null, iterations));
   const after = transform(id)(twoLoops);
