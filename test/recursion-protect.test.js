@@ -32,6 +32,8 @@ const code = {
         return wordBlanks;
     })();
         `,
+  stackedarrowfunctions:
+    "(()=> { const add = x => y => z => x + y + z; return add;})();",
 };
 
 const sinon = {
@@ -138,5 +140,12 @@ describe("recursion", function () {
         /\bran\b/.test(result) &&
         /\bquickly\b/.test(result)
     ).toBe(true);
+  });
+
+  it("should not break on stacked arrow functions", function () {
+    var c = code.stackedarrowfunctions;
+    var compiled = loopProtect(c);
+    var result = run(compiled);
+    expect(result(2)(4)(6)).toBe(12);
   });
 });
