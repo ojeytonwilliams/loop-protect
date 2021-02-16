@@ -13,9 +13,7 @@
     "test": "jest test/*.test.js",
     "build": "NODE_ENV=production babel lib/ --out-dir dist --copy-files",
     "format": "prettier --write .",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable && npm run build",
-    "postpublish": "pinst --enable"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist"
